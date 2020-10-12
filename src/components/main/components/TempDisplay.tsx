@@ -1,19 +1,26 @@
 import React from "react";
-import { IWeatherData } from "../../../models/weather";
+import { ICurrentWeather } from "../../../models/weather";
 import { getIconOfWeatherStatus } from "../../../helpers/getWeatherIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./TempDisplay.scss";
 
-export const TempDisplay = ({ weather, weatherStatus }: { weather?: IWeatherData, weatherStatus?: string }) => {
+interface ITempDisplay {
+  currentWeather: ICurrentWeather
+}
+
+export const TempDisplay = ({ currentWeather }: ITempDisplay) => {
+  const mainWeather: string = currentWeather?.weather?.[0].main;
+
   return (
     <div className="left-panel">
       <div className="temperature">
         <div className="temperature-icon">
-          {weatherStatus && <FontAwesomeIcon icon={getIconOfWeatherStatus(weatherStatus)} size="6x" />}
+          {mainWeather &&
+          <FontAwesomeIcon icon={getIconOfWeatherStatus(mainWeather)} size="6x" />}
         </div>
         <div className="temperature-info">
-          <h2>{weather && weather.current?.displayTemp}</h2>
-          <h3>{weather?.current.weather[0].main}</h3>
+          <h2>{currentWeather?.displayTemp}</h2>
+          <h3>{mainWeather}</h3>
         </div>
       </div>
     </div>

@@ -20,9 +20,12 @@
   font-size: calc(10px + 2vmin);
   display: flex;
   flex-direction: column;
+  height: 100vh;
+
   &.app-is-loading .app-main {
     border-top: 4px solid $action-color;
     position: relative;
+
     &:before {
       content: "";
       position: absolute;
@@ -40,6 +43,7 @@
   }
 }
 
-/* .app-main-header {
-
-} */
+button {
+  background: none;
+  border: none;
+}

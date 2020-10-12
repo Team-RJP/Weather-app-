@@ -1,20 +1,58 @@
+@import '../../styles/_variables.scss';
+
 .app-header {
   color: white;
-  background-color: #282c34;
+  background-color: $main-blue;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 25vh;
+  height: 25vh;
+  position: relative;
+  transition: height 0.4s ease-in;
 
-  input {
-    width: 22em;
+  &.app-header--collapsed {
+    height: 10vh;
+    .collapse-icon {
+      height: calc(100% - 30px);
+      transition: height 1s ease;
+    }
+  }
+
+  .search-wrapper {
+    input {
+      width: 35rem;
+      font-size: 1rem;
+      &:focus {
+        // outline: 2px solid $action-color;
+        border-radius: 4px;
+        box-shadow: 0 3px 6px rgba($action-color,0.45), 0 3px 6px rgba($action-color,0.65); ;
+      }
+    }
+  }
+
+  .collapse-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    outline: none;
+    height: 20px;
+    align-items: center;
+    transition: height 0.7s ease;
+
+    &:hover svg {
+      color: $main-white
+    }
+    svg {
+      color: lighten($color: $main-blue, $amount: 10)
+    }
   }
 
   .ap-dropdown-menu {
     background: #262931;
     font-size: smaller;
-    width: 26.4em;
+    width: 100%;
     left: 50% !important;
     right: auto !important;
     text-align: center !important;

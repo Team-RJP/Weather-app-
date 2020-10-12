@@ -1,3 +1,5 @@
+import { ICurrentWeather } from "../models/weather";
+
 enum Month {
   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 }
@@ -8,23 +10,35 @@ enum Day {
 
 export function formatAdvancedTime(newDate: any) {
   const date = newDate.getDate();
-  const month = newDate.getMonth() + 1;
   const year = newDate.getFullYear();
-  const hour = newDate.getHours();
-  const minutes = newDate.getMinutes();
-  const seconds = newDate.getSeconds();
-  const formattedMinutes = `${minutes<10?`0${minutes}`:`${minutes}`}`;
+  const month = newDate.getMonth();
+  const hour = addZero(newDate.getHours());
+  const minutes = addZero(newDate.getMinutes());
+  const seconds = addZero(newDate.getSeconds());
 
-  return `${year} ${Month[month]} ${date} ${hour}:${formattedMinutes}:${seconds}`
+  return `${year} ${Month[month]} ${date} ${hour}:${minutes}:${seconds}`
 }
 
 export function formatSimpleTime(newDate: any): string {
-  const day = newDate.getDay()
-  const date = newDate.getDate()
-  const month = newDate.getMonth()
+  const day = newDate.getDay();
+  const date = newDate.getDate();
+  const month = newDate.getMonth();
   const simpleDate: string = `${Day[day]}, ${date} ${Month[month]}`
 
   return simpleDate;
 }
 
+export const formatSunTimes = (weather: ICurrentWeather): { sunrise: string; sunset: string } => {
+  const sunriseDate = new Date(weather.sunrise * 1000);
+  const sunsetDate = new Date(weather.sunset * 1000);
+
+  return {
+    sunrise: addZero(sunriseDate.getHours()) + ':' + addZero(sunriseDate.getMinutes()),
+    sunset: addZero(sunsetDate.getHours()) + ':' + addZero(sunsetDate.getMinutes())
+  }
+}
+
+export const addZero = (time: number) => {
+  return ('0' + time.toString()).slice(-2)
+}
 

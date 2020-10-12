@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
+import * as _ from "lodash";
 import { IWeatherState } from "../../hooks/useFetchWeather"
 import { IUserGeoLocation } from "../../models"
-import { Unit } from "../../models/weather"
+import { ICurrentWeather, Unit } from "../../models/weather"
 import { MainLoader } from "./components/MainLoader"
 import { OptionToggles } from "./components/OptionToggles"
 import { TempDisplay } from "./components/TempDisplay"
 import { Timer } from "./components/Timer"
 import "./MainWeather.scss";
+import { RightPanel } from "./components/RightPanel";
 
 interface IMainWeatherProps {
   location?: IUserGeoLocation;
@@ -17,6 +19,7 @@ interface IMainWeatherProps {
 
 export const MainWeather = ({ location, weather, unit, toggleUnitCallback }: IMainWeatherProps) => {
   const [minimumLoading, setMinimumLoading] = useState<boolean>(true);
+  const currentWeather: ICurrentWeather = _.get(weather, "data.current", [])
 
   useEffect(() => {
     // sets a min. 500ms delay before listening
@@ -44,10 +47,8 @@ export const MainWeather = ({ location, weather, unit, toggleUnitCallback }: IMa
         />
       </div>
       <div className="app-main-body">
-        <TempDisplay weather={weather.data} weatherStatus={weather?.data?.current.weather[0].main}/>
-        <div className="right-panel">
-          right
-        </div>
+        <TempDisplay currentWeather={currentWeather}/>
+        <RightPanel currentWeather={currentWeather}/>
       </div>
     </main>
   )
